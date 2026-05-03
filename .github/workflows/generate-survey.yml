@@ -1,0 +1,31 @@
+name: Generate Customer Survey Data
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pandas numpy openpyxl
+
+      - name: Run survey generation script
+        run: |
+          python generate_customer_survey.py
+
+      - name: Upload Excel output
+        uses: actions/upload-artifact@v4
+        with:
+          name: smartlog-tms-customer-survey
+          path: output/smartlog_tms_customer_survey_2023_2025.xlsx
